@@ -2,7 +2,7 @@ import React , {useState} from 'react';
 import { VStack } from '@chakra-ui/layout';
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input,InputGroup,InputRightElement } from '@chakra-ui/input';
-import { button } from "@chakra-ui/button";
+import { Button } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios"; 
 import { useHistory } from 'react-router-dom'; 
@@ -34,7 +34,7 @@ const Signup = () => {
             });
             return;
         }
-        if (pics.type === "image/jpeg" || pics.type === "image/png") {
+        if (pics.type === "image/jpeg" || pics.type === "image/png" || pics.type==="image/jpg") {
             const data = new FormData();
             data.append("file", pics);
             data.append("upload_preset", "chat-app");
@@ -45,12 +45,14 @@ const Signup = () => {
             }).then((res) => res.json())
                 .then(data => {
                     setPic(data.url.toString());
+                    //console.log(data.url.toString());
                     setLoading(false);
                 })
                 .catch((err) => {
                     console.log(err);
                     setLoading(false);
                 });
+           
         } else {
             toast({
                 title: "please select an image",
@@ -59,6 +61,7 @@ const Signup = () => {
                 isClosable: true,
                 position: "bottom",
             });
+        
             setLoading(false);
             return;
         }
@@ -106,7 +109,7 @@ const Signup = () => {
   
             localStorage.setItem("userInfo", JSON.stringify(data));
             setLoading(false);
-            history.push("/chats")
+            history.push("/chats");
 
         } catch (error) {
                toast({
@@ -116,7 +119,9 @@ const Signup = () => {
                 duration: 5000,
                 isClosable: true,
                 position: "bottom",
+                
                });
+            console.log("hey everyone");
             setLoading(false);
         }
     };
@@ -189,7 +194,7 @@ const Signup = () => {
             />
         </FormControl>
         
-        <button
+        <Button
             colorScheme="blue"
             width="100%"
             style={{ marginTop: 15 }}
@@ -197,7 +202,7 @@ const Signup = () => {
             isLoading = {loading}
         >
           Sign Up
-        </button>
+        </Button>
 
     </VStack>;
 };
